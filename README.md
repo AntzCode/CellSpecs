@@ -23,6 +23,26 @@ I am using a battery cell tester like this one:
 
 It takes a few days to test a large number of cells and requires careful record-keeping. It is a bit cumbersome to use a spreadsheet on a mobile device, so I made this app to assist in the collecting of the data and for the calculating of the overall pack statistics.
 
+## Testing procedure and Data Stages
+
+Each cell is already numbered with a unique id. I first test the voltage and internal resistance. These are entered into the form when I click the "Add new" button.
+
+I then charge each cell to full capacity and I click to edit the cell, and I record the voltage of the cell after it has been charged.
+
+I then set the test mode to discharge and I let it run the battery down until it reaches the cutoff voltage. I then click to edit the cell details again and I record: milliamps capacity, milliwatts capacity and the cell voltage at rest after having been fully discharged.
+
+I then recharge the cell to full and again edit the cell to record the voltage after recharge. 
+
+I then let the cell rest for 7 days before recording the voltage and Internal Resistance again. This can help to identify faulty cells that would eventually destroy a battery pack.
+
+Those are the five stages of testing and they are labeled as such:
+
+1. **New**: Initial entry (cell number, voltage, IR)
+2. **Testing**: First charge voltage entered
+3. **Charging**: Capacity data (mAh, mWh, flat voltage) entered
+4. **On hold**: Recharge voltage entered
+5. **Tested**: 7-day voltage and IR entered
+
 ## Features
 
 - **Multi-stage Cell Entry**: Enter cell data through sequential stages (initial specs, charge voltage, capacity, recharge, 7-day testing)
@@ -94,14 +114,6 @@ The app will be available at `http://localhost:3000`
 ### Direct JSON Editing
 
 - Click "Edit JSON" on any cell for direct JSON editing (for corrections)
-
-## Data Stages
-
-1. **New**: Initial entry (cell number, voltage, IR)
-2. **Testing**: First charge voltage entered
-3. **Charging**: Capacity data (mAh, mWh, flat voltage) entered
-4. **On hold**: Recharge voltage entered
-5. **Tested**: 7-day voltage and IR entered
 
 ## File Structure
 
