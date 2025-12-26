@@ -68,10 +68,10 @@ app.post('/api/cells', (req, res) => {
   }
   const updated = { ...existing, ...cell };
   if (updated.voltageRecharge && !updated.rechargeDate) {
-    updated.rechargeDate = new Date().toISOString();
+    updated.rechargeDate = new Date().toISOString().split('T')[0];
   }
   if (updated.voltage7days && !updated.voltage7daysDate) {
-    updated.voltage7daysDate = new Date().toISOString();
+    updated.voltage7daysDate = new Date().toISOString().split('T')[0];
   }
   fs.writeFileSync(filePath, JSON.stringify(updated, null, 2));
   res.sendStatus(200);

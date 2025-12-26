@@ -41,6 +41,12 @@ $(document).ready(function() {
     $('#cancel').click(function() {
         hideForm();
     });
+    $('#json-save').click(function() {
+        saveJson();
+    });
+    $('#json-cancel').click(function() {
+        $('#json-modal').hide();
+    });
     $('#logout').click(function() {
         window.location.href = '/logout';
     });
@@ -199,7 +205,7 @@ function displayCells(data) {
     });
     $('#cell-list .edit-json').click(function(e) {
         e.stopPropagation();
-        const id = $(this).parent().data('id');
+        const id = $(this).closest('li').data('id');
         editJson(id);
     });
 }
@@ -337,21 +343,39 @@ function hideForm() {
 
 function editJson(id) {
     $.get(`/api/cells/${id}`, function(cell) {
-        const json = JSON.stringify(cell, null, 2);
-        const newJson = prompt('Edit JSON:', json);
-        if (newJson !== null) {
-            try {
-                const updated = JSON.parse(newJson);
-                $.ajax({
-                    url: '/api/cells',
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(updated),
-                    success: loadCells
-                });
-            } catch (e) {
-                alert('Invalid JSON: ' + e.message);
+        $('#json-form').empty();
+        for (const key in cell) {
+            if (cell.hasOwnProperty(key)) {
+                const value = cell[key] !== null && cell[key] !== undefined ? cell[key] : '';
+                $('#json-form').append(`<div><label>${key}: <input type="text" name="${key}" value="${value}"></label></div>`);
             }
+        }
+        $('#json-modal').show();
+    });
+}
+
+function saveJson() {
+    const updated = {};
+    $('#json-form input').each(function() {
+        const key = $(this).attr('name');
+        let value = $(this).val();
+        // Try to parse as number if possible
+        if (!isNaN(value) && value !== '') {
+            value = parseFloat(value);
+        }
+        updated[key] = value;
+    });
+    $.ajax({
+        url: '/api/cells',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(updated),
+        success: function() {
+            loadCells();
+            $('#json-modal').hide();
+        },
+        error: function(xhr) {
+            alert('Error saving: ' + xhr.responseText);
         }
     });
 }
