@@ -124,4 +124,12 @@ The app will be available at `http://localhost:3000`
 
 ## Support
 
-For issues or questions, check the application logs or examine the JSON files in the data directory.
+No support is offered for this product. You can modify your own copy of it or get someone else to do it for you. 
+
+## License
+
+This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
+
+## Support
+
+In case of problems, check the application logs or examine the JSON files in the data directory.
