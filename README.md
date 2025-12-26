@@ -1,10 +1,27 @@
-# Cell Specifications App
+# Battery Master
 
 This is a web application for managing and tracking lithium-ion cell specifications through various testing stages. 
 
 It is designed to assist in the sorting and organising of battery packs built from recycled cells where the individual cell characteristics are varied. 
 
 It facilitates the efficient collecting of cell data including voltage, internal resistance, capacity, and testing dates.
+
+![Battery Master Screenshot](./docs/Screenshots/example-screenshot.png)
+
+
+## Why did I make it?
+
+I am building a new lithium battery pack for my e-scooter and I am using second-hand lithium cells. Reclaimed cells offer excellent value for money but they also vary a bit from one to the next because every cell ages in its own unique way.
+
+![Second-hand battery cells](./docs/Photos/18650-random-batteries.jpg)
+
+When building battery packs with second-hand cells, it is important to combine the cells carefully to ensure the best reliability and longevity of the battery pack.  
+
+I am using a battery cell tester like this one:
+
+![Battery Cell Tester](./docs/Photos/4-cell-tester.jpg)
+
+It takes a few days to test a large number of cells and requires careful record-keeping. It is a bit cumbersome to use a spreadsheet on a mobile device, so I made this app to assist in the collecting of the data and for the calculating of the overall pack statistics.
 
 ## Features
 

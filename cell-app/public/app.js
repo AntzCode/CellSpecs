@@ -172,8 +172,17 @@ function displayCells(data) {
         const voltageDrop = cell.voltageRecharge && cell.voltage7days ? (cell.voltageRecharge - cell.voltage7days).toFixed(3) : 'N/A';
         const dropPerMonth = voltageDrop !== 'N/A' ? (voltageDrop * 30 / 7).toFixed(3) : 'N/A';
         const details = `Voltage: ${cell.firstVoltage || 'N/A'}<br>IR: ${cell.internalResistance || 'N/A'}<br>Charge V: ${cell.firstChargeVoltage || 'N/A'}<br>Cap mAh: ${cell.capacityMah || 'N/A'}<br>Cap mWh: ${cell.capacityMwh || 'N/A'}<br>Flat V: ${cell.voltageFlat || 'N/A'}<br>Recharge V: ${cell.voltageRecharge || 'N/A'}<br>Recharge Date: ${rechargeDate}<br>7 Days V: ${cell.voltage7days || 'N/A'}<br>7 Days IR: ${cell.ir7days || 'N/A'}<br>7 Days Date: ${voltage7daysDate}<br>Voltage Drop: ${voltageDrop}<br>Drop/Month: ${dropPerMonth}`;
-        const statusText = ['New', 'Testing', 'Charging', 'On hold', 'Tested'][cell.stage] || 'New';
-        $('#cell-list').append(`<li data-id="${cell.cellNumber}"><div class="header"><input type="checkbox" class="cell-select"> <span class="cell-id">${cell.cellNumber}</span><span class="status">${statusText}</span></div><div class="buttons"><button class="view-details">View Details</button> <button class="edit-json">Edit JSON</button></div><div class="details" style="display:none;">${details}</div></li>`);
+        let statusText = ['New', 'Testing', 'Charging', 'On hold', 'Tested'][cell.stage] || 'New';
+        if (cell.stage === 3 && cell.rechargeDate) {
+            const rechargeDateObj = new Date(cell.rechargeDate);
+            if (!isNaN(rechargeDateObj.getTime())) {
+                const now = new Date();
+                const daysElapsed = (now - rechargeDateObj) / (1000 * 60 * 60 * 24);
+                const daysLeft = Math.max(0, 7 - daysElapsed);
+                statusText = `On hold (${daysLeft.toFixed(1)} days left)`;
+            }
+        }
+        $('#cell-list').append(`<li data-id="${cell.cellNumber}"><div class="header"><input type="checkbox" class="cell-select" title="Select this cell for bulk editing"> <span class="cell-id">${cell.cellNumber}</span><span class="status">${statusText}</span></div><div class="buttons"><button class="view-details" title="Show detailed specifications for this cell">View Details</button> <button class="edit-json" title="Open a text editor for direct JSON editing of this cell's data">Edit JSON</button></div><div class="details" style="display:none;">${details}</div></li>`);
     });
     $('#cell-list li').click(function(e) {
         if ($(e.target).is('input, button')) return;
@@ -196,7 +205,7 @@ function displayCells(data) {
 }
 
 function showForm(stage, cell) {
-    $('#form-container').show();
+    $('#form-container').show().toggleClass('editing', isEditing);
     $('#form-title').text(isEditing ? `Edit Cell ${cell.cellNumber}` : 'Add Cell');
     $('.stage').hide();
     $(`#stage-${stage}`).show();

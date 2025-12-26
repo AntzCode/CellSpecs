@@ -1,5 +1,5 @@
 {
-  "name": "cell-specs-app",
+  "name": "battery-master",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
